@@ -2,6 +2,7 @@ package training_class;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,15 +41,67 @@ public class Assignment2dot3 {
 		ArrayList totSc = new ArrayList();//sum of each players scores
 		ArrayList nosP = new ArrayList();//how many score a player had 
 		
-		if (names.contains()){
-			//action: don't add new name if already exists
+		
+		//names[]
+		File fill = new File("data.txt");//references the contents of a file
+		
+		Scanner inpStr;
+		try {
+			inpStr = new Scanner(fill);
+		
+		while (inpStr.hasNext()){
+			//action: as long as the file has text, the loop will continue
 			
-		}else{
+			String data = inpStr.next();
+			String[] piece = data.split(" ");//splits based on one space
 			
-			names.add(); //add new name
+			double Num = Double.parseDouble(piece[1]);
+			
+			if (names.contains(piece[0])){
+				//action: don't add new name if already exists. Just increment number of score and add to total
+				
+				int nameIndex = names.indexOf(piece[0]);
+				
+				
+				double ts = (Double) totSc.get(nameIndex);
+				
+				double newVal = ts + Num;
+				
+				totSc.set(nameIndex, newVal);
+				
+				
+//				double str2Num = Double.parseDouble(piece[4]);// converts data from string
+//				nosP.get(piece[1]);
+//				nosP.set(dub, element);
+//				
+			}else{
+				//action: add name; 
+				names.add(piece[0]); //add new name
+				
+				//action: add to sum of corresponding totSc
+				totSc.add(Num);
+				
+				//action: add new nosP
+				nosP.add(1);
+			}
+			inpStr.close();
+			
+			System.out.println("names are: " + names );
+			System.out.println("sums are: " + totSc );
+			System.out.println("names are: " + nosP );
+			
+			
+			//System.out.println(piece[3] );//prints out last value in one row
+			
+			//nos++; //counting number of scores per student
 		}
 		
-		File file = new File("data.txt");//references the contents of a file
+		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 //		try {
