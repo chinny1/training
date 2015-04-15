@@ -24,18 +24,18 @@ public class Assignment2dot3 {
 		
 		
 		//action: testing the properties of arrayList.contains
-		ArrayList myList = new ArrayList();
-		myList.add("turkey");
-		myList.add("giving");
-		
-		if (myList.contains("giving")){
-			
-			System.out.println("The list contains turkey !");
-			
-		}else{
-			System.out.println("nope!");
-			
-		}
+//		ArrayList myList = new ArrayList();
+//		myList.add("turkey");
+//		myList.add("giving");
+//		
+//		if (myList.contains("giving")){
+//			
+//			System.out.println("The list contains turkey !");
+//			
+//		}else{
+//			System.out.println("nope!");
+//			
+//		}
 		
 		ArrayList names = new ArrayList();
 		ArrayList totSc = new ArrayList();//sum of each players scores
@@ -47,54 +47,63 @@ public class Assignment2dot3 {
 		
 		Scanner inpStr;
 		try {
+			
 			inpStr = new Scanner(fill);
 		
+			System.out.println("");
+			//System.out.println(inpStr);
+			
 		while (inpStr.hasNext()){
 			//action: as long as the file has text, the loop will continue
 			
 			String data = inpStr.next();
-			String[] piece = data.split(" ");//splits based on one space
-			
-			double Num = Double.parseDouble(piece[1]);
-			
-			if (names.contains(piece[0])){
+//			String[] piece = data.split(" ");//splits based on one space
+//			
+//			double Num = Double.parseDouble(piece[1]);
+//			
+			//if (names.contains(piece[0])){
 				//action: don't add new name if already exists. Just increment number of score and add to total
-				
-				int nameIndex = names.indexOf(piece[0]);
-				
-				
-				double ts = (Double) totSc.get(nameIndex);
-				
-				double newVal = ts + Num;
-				
-				totSc.set(nameIndex, newVal);
-				
+//				
+//				int nameIndex = names.indexOf(piece[0]);
+//				
+//				
+//				double ts = (Double) totSc.get(nameIndex);
+//				
+//				double newVal = ts + Num;
+//				
+//				totSc.set(nameIndex, newVal);
+//				
 				
 //				double str2Num = Double.parseDouble(piece[4]);// converts data from string
 //				nosP.get(piece[1]);
 //				nosP.set(dub, element);
 //				
-			}else{
+			//}else{
 				//action: add name; 
-				names.add(piece[0]); //add new name
+			//	names.add(piece[0]); //add new name
 				
 				//action: add to sum of corresponding totSc
-				totSc.add(Num);
+			//	totSc.add(Num);
 				
 				//action: add new nosP
-				nosP.add(1);
-			}
-			inpStr.close();
-			
-			System.out.println("names are: " + names );
-			System.out.println("sums are: " + totSc );
-			System.out.println("names are: " + nosP );
+				//nosP.add(1);
+			//}
+//			
+//			
+//			System.out.println("names are: " + names );
+//			System.out.println("sums are: " + totSc );
+//			System.out.println("names are: " + nosP );
 			
 			
 			//System.out.println(piece[3] );//prints out last value in one row
 			
 			//nos++; //counting number of scores per student
+			
+			System.out.println(data);
 		}
+		
+		inpStr.close();
+		
 		
 		
 		} catch (FileNotFoundException e) {
