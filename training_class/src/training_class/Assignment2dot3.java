@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 //import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Assignment2dot3 {
@@ -53,15 +54,17 @@ public class Assignment2dot3 {
 			System.out.println("");
 			//System.out.println(inpStr);
 			
-		while (inpStr.hasNext()){
+		while (inpStr.hasNextLine()){
 			//action: as long as the file has text, the loop will continue
 			
-			String data = inpStr.next();
-//			String[] piece = data.split(" ");//splits based on one space
+			String data = inpStr.nextLine();
+			String[] piece = data.split(" ");//splits based on one space
+			
+			//System.out.println("piece 0 is: "+ piece[0]);
+			//System.out.println("piece 1 is: "+ piece[2]);
+			//double Num = Double.parseDouble(piece[1]);
 //			
-//			double Num = Double.parseDouble(piece[1]);
-//			
-			//if (names.contains(piece[0])){
+			if (names.contains(piece[0])){
 				//action: don't add new name if already exists. Just increment number of score and add to total
 //				
 //				int nameIndex = names.indexOf(piece[0]);
@@ -77,17 +80,18 @@ public class Assignment2dot3 {
 //				double str2Num = Double.parseDouble(piece[4]);// converts data from string
 //				nosP.get(piece[1]);
 //				nosP.set(dub, element);
-//				
-			//}else{
+				//System.out.println("piece zero is: "+ piece[0]);
+				//System.out.println("");
+			}else{
 				//action: add name; 
-			//	names.add(piece[0]); //add new name
+				//names.add(piece[0]); //add new name
 				
 				//action: add to sum of corresponding totSc
-			//	totSc.add(Num);
+				//totSc.add(Num);
 				
 				//action: add new nosP
 				//nosP.add(1);
-			//}
+			}
 //			
 //			
 //			System.out.println("names are: " + names );
