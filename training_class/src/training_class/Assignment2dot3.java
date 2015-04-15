@@ -7,8 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static java.lang.Math.*;
+
 public class Assignment2dot3 {
 
+	
+	public double getAvg(Object stud, int numSc){
+		
+		
+		return (Double)stud/numSc;
+	}
 	
 	public static void main( String [] args ) {
 		
@@ -75,11 +83,14 @@ public class Assignment2dot3 {
 				double newVal = ts + Num;//
 				
 				totSc.set(nameIndex, newVal);
-//				
-				//System.out.println("value at nos is: " + nosP.get(nameIndex));
+//				note: having trouble increment number within nosP
+				
 //				double str2Num = Double.parseDouble(piece[4]);// converts data from string
 //				nosP.get(piece[1]);
-				//nosP.set(nameIndex, );
+				
+				int newNos = (Integer) nosP.get(nameIndex);
+				nosP.set(nameIndex, ++newNos);//increments and then updates tally of total number of scores
+				
 				//System.out.println("piece zero is: "+ piece[0]);
 				//System.out.println("");
 			}else{
@@ -94,17 +105,38 @@ public class Assignment2dot3 {
 			}
 //			
 //			
-			System.out.println("names are: " + names );
-			System.out.println("sums are: " + totSc );
-			System.out.println("names are: " + nosP );
+			
 			
 			
 			//System.out.println(piece[3] );//prints out last value in one row
 			
 			//nos++; //counting number of scores per student
+			if (!(inpStr.hasNextLine())){
 			
-			System.out.println(data);
+				System.out.println("names are: " + names );
+				System.out.println("sums are: " + totSc );
+				System.out.println("names are: " + nosP );
+			
+				
+				Assignment2dot3 as3 =  new Assignment2dot3();
+				
+				Double totAvg = ((as3.getAvg( totSc.get(0), (Integer)nosP.get(0)) + as3.getAvg( totSc.get(0), (Integer)nosP.get(0)) + as3.getAvg( totSc.get(0), (Integer)nosP.get(0)) )  / names.size()) ;
+				
+				
+				
+				;
+				
+				System.out.println("");
+				System.out.println("Number of students: " + names.size());
+				System.out.println("Average student mark: " + totAvg);
+				System.out.println("Standard deviation: TBD" );
+				 
+				//System.out.println(data);
+			}
+			
+			
 		}
+		
 		
 		inpStr.close();
 		
