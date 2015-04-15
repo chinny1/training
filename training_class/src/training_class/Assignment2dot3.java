@@ -61,42 +61,42 @@ public class Assignment2dot3 {
 			String[] piece = data.split(" ");//splits based on one space
 			
 			//System.out.println("piece 0 is: "+ piece[0]);
-			//System.out.println("piece 1 is: "+ piece[2]);
-			//double Num = Double.parseDouble(piece[1]);
-//			
+			//System.out.println("piece 1 is: "+ piece[1]);
+			double Num = Double.parseDouble(piece[1]);
+			
 			if (names.contains(piece[0])){
 				//action: don't add new name if already exists. Just increment number of score and add to total
 //				
-//				int nameIndex = names.indexOf(piece[0]);
-//				
-//				
-//				double ts = (Double) totSc.get(nameIndex);
-//				
-//				double newVal = ts + Num;
-//				
-//				totSc.set(nameIndex, newVal);
-//				
+				int nameIndex = names.indexOf(piece[0]);
 				
+				
+				double ts = (Double) totSc.get(nameIndex);
+				
+				double newVal = ts + Num;//
+				
+				totSc.set(nameIndex, newVal);
+//				
+				//System.out.println("value at nos is: " + nosP.get(nameIndex));
 //				double str2Num = Double.parseDouble(piece[4]);// converts data from string
 //				nosP.get(piece[1]);
-//				nosP.set(dub, element);
+				//nosP.set(nameIndex, );
 				//System.out.println("piece zero is: "+ piece[0]);
 				//System.out.println("");
 			}else{
 				//action: add name; 
-				//names.add(piece[0]); //add new name
+				names.add(piece[0]); //add new name
 				
 				//action: add to sum of corresponding totSc
-				//totSc.add(Num);
+				totSc.add(Num);
 				
 				//action: add new nosP
-				//nosP.add(1);
+				nosP.add(1);
 			}
 //			
 //			
-//			System.out.println("names are: " + names );
-//			System.out.println("sums are: " + totSc );
-//			System.out.println("names are: " + nosP );
+			System.out.println("names are: " + names );
+			System.out.println("sums are: " + totSc );
+			System.out.println("names are: " + nosP );
 			
 			
 			//System.out.println(piece[3] );//prints out last value in one row
