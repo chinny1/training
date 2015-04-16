@@ -11,6 +11,9 @@ public class Assignment3dot1 {
 		String queries[] = new String[]{ "", "", "", "", "", "", "", "" };
 		
 		
+		//what I learned: have to think of tables as a generic "concentric" or "fractile" concept. Two or more tables can be
+		// added together via UNION. inner join can be used to "add together" two tables that have a common field
+		
 		//join two tables by their shared branchIds
 		//need to: update to search by name and not strictly number; should require using multiple left joins
 		queries[1] = " SELECT * FROM ( "
@@ -43,11 +46,22 @@ public class Assignment3dot1 {
 		
 		// notes: involves tables tbl_library_branch
 		//personal note: I'm kind of iffy on the count I used here 
-		queries[5] = "SELECT tbl_library_branch.branchName, COUNT(tbl_book_loans.branchId) FROM tbl_library_branch INNER JOIN tbl_library_branch.branchId = tbl_book_loans.branchId";
+		queries[5] = "SELECT tbl_library_branch.branchName, COUNT(tbl_book_loans.branchId) AS numBooks FROM tbl_library_branch INNER JOIN tbl_library_branch.branchId = tbl_book_loans.branchId";
 		
-		queries[6] = "SELECT * FROM TABLE";
 		
-		queries[7] = "SELECT * FROM TABLE";
+		//notes: 
+		queries[6] = "SELECT tbl_borrower.name, tbl_borrower.address, COUNT(tbl_book_loans.cardNo) AS numBooks FROM tbl_borrower INNER JOIN tbl_borrower.cardNo = tbl_book_loans.cardNo WHERE numBooks > 5";
+		
+		//notes:
+		queries[7] = "SELECT tbl_book_copies.noOfCopies, [table].title ( "
+				+ "SELECT * FROM tbl_book_loans INNER JOIN tbl_book_loans.branchId = tbl_book_copies.branchId"
+				+ "UNION"
+				+ "SELECT * FROM tbl_book INNER JOIN tbl_book_loans.bookId = tbl_book.bookId"
+				+ "UNION"
+				+ "SELECT * FROM tbl_book_loans INNER JOIN tbl_book_loans.bookId = tbl_book_authors.bookId"
+				+ "UNION"
+				+ "SELECT * FROM tbl_book_authors INNER JOIN tbl_author.authorId = tbl_book_authors.authorId"
+				+ " ) WHERE tbl_author.authorName = 'Stephen King' AND tbl_library_branch.branchName = 'Central' ";
 		
 	}
 	
