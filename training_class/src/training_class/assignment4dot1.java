@@ -1,4 +1,4 @@
-package training_class;
+package com.training.db;
 
 
 import java.sql.Connection;
@@ -71,12 +71,19 @@ public class assignment4dot1 {
 			//Add/Update/Delete Book and Author
 			
 		
+			if ( pers.equals("admin") ){
+				
+				System.out.println("yezzir");
+			}
 			
 			PreparedStatement pstmt = con.prepareStatement("");//just initializing to stop future errors.
 			
 			
-			if ( pers.equals("admin") && action.equals("add") && value.length() > 0){
+			
+			
+			if ( pers.equals("admin") && action.equals("add/BookAuthor") ){
 				//action: insert
+				System.out.println("got in add/bookauthor");
 				String updateQuery = "insert into tbl_book_authors (authorName) values (?,?)";
 				
 				pstmt = con.prepareStatement(updateQuery);
@@ -103,7 +110,7 @@ public class assignment4dot1 {
 				
 				
 				
-			}else if ( pers.equals("admin") && action.equals("udpate") && value.length() > 0 ){
+			}else if ( pers.equals("admin") && action.equals("udpate/BookAuthor") ){
 				//action: update
 				String updateQuery = "UPDATE tbl_book_authors SET bookId = ? WHERE authorId = ?";
 				
@@ -129,7 +136,7 @@ public class assignment4dot1 {
 				
 				
 				
-			}else if (pers.equals("admin") && action.equals("delete") ){
+			}else if (pers.equals("admin") && action.equals("delete/BookAuthor") ){
 				
 				//action delete;
 				//NOTE: anything can be accepted for value but the value won't be used
@@ -160,7 +167,7 @@ public class assignment4dot1 {
 			 
 			 //Add/Update/Delete Publishers
 		
-			if ( pers.equals("admin") && action.equals("add") && value.length() > 0){
+			if ( pers.equals("admin") && action.equals("add") ){
 				//action: insert
 				String updateQuery = "insert into tbl_publisher (authorName) values (?,?,?,?)";
 				
@@ -179,7 +186,7 @@ public class assignment4dot1 {
 				
 				
 				
-			}else if ( pers.equals("admin") && action.equals("update") && value.length() > 0 ){
+			}else if ( pers.equals("admin") && action.equals("update")  ){
 				//action: update
 				String updateQuery = "UPDATE tbl_book_authors SET bookId = ? WHERE authorId = ?";
 				
@@ -223,7 +230,7 @@ public class assignment4dot1 {
 			 
 		
 			
-			if ( pers.equals("admin") && action.equals("add") && value.length() > 0){
+			if ( pers.equals("admin") && action.equals("add") ){
 				//action: insert
 				String updateQuery = "insert into tbl_book_authors (authorName) values (?,?)";
 				
@@ -242,7 +249,7 @@ public class assignment4dot1 {
 				
 				
 				
-			}else if ( pers.equals("admin") && action.equals("update") && value.length() > 0 ){
+			}else if ( pers.equals("admin") && action.equals("update") ){
 				//action: update
 				String updateQuery = "UPDATE tbl_book_authors SET bookId = ? WHERE authorId = ?";
 				
@@ -282,7 +289,7 @@ public class assignment4dot1 {
 			// Add/Update/Delete Borrowers
 			
 			
-			if ( pers.equals("admin") && action.equals("add") && value.length() > 0){
+			if ( pers.equals("admin") && action.equals("add") ){
 				//action: insert
 				String updateQuery = "insert into tbl_borrower (cardNo, name, address, phone) values (?,?,?,?)";
 				
@@ -301,7 +308,7 @@ public class assignment4dot1 {
 				
 				
 				
-			}else if ( pers.equals("admin") && action.equals("update") && value.length() > 0 ){
+			}else if ( pers.equals("admin") && action.equals("update")  ){
 				//action: update name
 				String updateQuery = "UPDATE tbl_borrower SET name = ?, address = ?, phone = ? WHERE cardNo = ?";
 				
@@ -341,7 +348,7 @@ public class assignment4dot1 {
 			// Over-ride Due Date for a Book Loan
 
 			
-			if ( pers.equals("admin") && action.equals("update") && value.length() > 0 ){
+			if ( pers.equals("admin") && action.equals("update")  ){
 				//action: update
 				String updateQuery = "UPDATE tbl_book_loans SET dueDate = ? WHERE bookId = ? AND cardNo = ?";
 				
