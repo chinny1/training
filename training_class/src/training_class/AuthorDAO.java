@@ -21,11 +21,14 @@ public class AuthorDAO implements Serializable{
 	public void addAuthor(Author author) throws SQLException {
 		Connection conn = getConnection();
 
-			String updateQuery = "insert into tbl_author (authorName) values (?)";
+			String updateQuery = "insert into tbl_author (authorId, authorName) values (?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
-			pstmt.setString(1, author.getAuthorName());
+			pstmt.setInt(1, author.getAuthorId());
+			pstmt.setString(2, author.getAuthorName());
+			
+			
 			pstmt.executeUpdate();
-
+			
 	}
 	
 	public void updateAuthor(Author author) throws SQLException {
@@ -52,7 +55,7 @@ public class AuthorDAO implements Serializable{
 	private Connection getConnection() throws SQLException {
 		Connection conn;
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "root");
+					"jdbc:mysql://localhost:3306/library", "root", null);
 		return conn;
 	}
 	
