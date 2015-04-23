@@ -50,7 +50,7 @@ public class BookDAO implements Serializable {
 	private Connection getConnection() throws SQLException {
 		Connection conn;
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/library", "root", "root");
+					"jdbc:mysql://localhost:3306/library", "root", null);
 		return conn;
 	}
 	
