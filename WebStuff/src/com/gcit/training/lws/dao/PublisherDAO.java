@@ -22,7 +22,7 @@ public class PublisherDAO extends BaseDAO<Publisher> implements Serializable {
 	private static final long serialVersionUID = 1619700647002508164L;
 
 	public void addPublisher(Publisher publisher) throws SQLException {
-		save("insert into tbl_publisher (publisherName,publisherAddress,publisherPhone) values (?,?,?,?)",
+		save("insert into tbl_publisher (publisherName,publisherAddress,publisherPhone) values (?,?,?)",
 				new Object[] { publisher.getName(), publisher.getAddress(), publisher.getPhoneNumber() });
 
 	}

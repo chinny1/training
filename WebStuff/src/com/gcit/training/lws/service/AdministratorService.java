@@ -1,21 +1,19 @@
 package com.gcit.training.lws.service;
 
+//import static org.junit.Assert.fail;
+
 import java.sql.Connection;
 
 import com.gcit.training.lws.dao.AuthorDAO;
 import com.gcit.training.lws.domain.Author;
 import com.gcit.training.lws.dao.BookDAO;
 import com.gcit.training.lws.domain.Book;
-
 import com.gcit.training.lws.dao.GenreDAO;
 import com.gcit.training.lws.domain.Genre;
-
 import com.gcit.training.lws.dao.PublisherDAO;
 import com.gcit.training.lws.domain.Publisher;
-
 import com.gcit.training.lws.dao.LibraryBranchDAO;
 import com.gcit.training.lws.domain.LibraryBranch;
-
 import com.gcit.training.lws.dao.BorrowerDAO;
 import com.gcit.training.lws.domain.Borrower;
 
@@ -31,6 +29,24 @@ public class AdministratorService {
 			conn.rollback();
 			throw e;
 		}
+	}
+	
+	public void getAuthor(Author author)throws Exception {
+		
+		
+		Connection conn = ConnectionUtil.getConnection();
+		
+	
+		
+		try {
+		
+			new AuthorDAO(conn).updateAuthor(author);
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
 	}
 	
 	

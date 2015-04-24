@@ -49,7 +49,7 @@ public class HelloServlet extends HttpServlet {
 		String authorName = request.getParameter("authorName");
 		
 		//authorName = "Mr. twain";
-		
+		//status: checked
 		//adding author:
 		if (authorName != null){
 			
@@ -69,41 +69,47 @@ public class HelloServlet extends HttpServlet {
 		
 		
 		//adding Book:
-		String title = request.getParameter("title");
-		String pubId = request.getParameter("pubId");//having issues with this parameter
-		
-		int intPubId = Integer.parseInt(pubId);
-		
-		if (title != null && intPubId != 0){
-			
-
-			Book book = new Book();
-			Publisher pub = new Publisher();
-			
-			//note: I'm iffy on the next two statements; just wanted title and pub Id to tbl_book
-			pub.setId(intPubId);
-			book.setPublisher(pub);
-			
-			
-			try {
-				new AdministratorService().addBook(book);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
+		//status: pubId not being checked
+//		String title = request.getParameter("title");
+//		String pubId = request.getParameter("pubid");//having issues with this parameter
+//		
+//		
+//		if (title != null && pubId != null){
+//			
+//
+//			int intPubId = Integer.parseInt(pubId);
+//			
+//			System.out.println("intPubId is equal to: " + intPubId);
+//			
+//			Book book = new Book();
+//			Publisher pub = new Publisher();
+//			
+//			//note: I'm iffy on the next two statements; just wanted title and pub Id to tbl_book
+//			pub.setId(intPubId);
+//			book.setPublisher(pub);
+//			
+//			
+//			try {
+//				new AdministratorService().addBook(book);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//		}
 		
 		
 		
 		//adding Genre:
-		
+		//status: checked
 		String genreName =  request.getParameter("name");
 
 		if (genreName != null){
 			
 		
 			Genre genre = new Genre();
+			
+			genre.setName(genreName);
 			
 			try {
 				new AdministratorService().addGenre(genre);
