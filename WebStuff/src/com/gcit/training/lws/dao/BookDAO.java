@@ -21,17 +21,17 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 	 */
 	private static final long serialVersionUID = 1619700647002508164L;
 
-	public void addBook(Book bk) throws SQLException {
+	public void addBook(Book book) throws SQLException {
 
 		Integer pubId = null;
-		if (bk.getPublisher() != null)
-			pubId = bk.getPublisher().getId();
+		if (book.getPublisher() != null)
+			pubId = book.getPublisher().getId();
 
 		int bookId = saveWithId(
-				"insert into tbl_book (title, pubId) values (?)", new Object[] {
-						bk.getTitle(), pubId });
+				"insert into tbl_book (title, pubId) values (?,?)", new Object[] {
+						book.getTitle(), pubId });
 
-		for (Author a : bk.getAuthors()) {
+		for (Author a : book.getAuthors()) {
 			save("insert into tbl_book_authors (bookId, authorId) values (?,?)",
 					new Object[] { bookId, a.getAuthorId() });
 		}

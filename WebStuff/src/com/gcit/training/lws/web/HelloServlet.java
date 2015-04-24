@@ -48,6 +48,8 @@ public class HelloServlet extends HttpServlet {
 		
 		String authorName = request.getParameter("authorName");
 		
+		//authorName = "Mr. twain";
+		
 		//adding author:
 		if (authorName != null){
 			
@@ -68,17 +70,20 @@ public class HelloServlet extends HttpServlet {
 		
 		//adding Book:
 		String title = request.getParameter("title");
-		int pubId = request.getParameter("pubId");
+		String pubId = request.getParameter("pubId");//having issues with this parameter
 		
-		if (title != null && pubId != 0){
+		int intPubId = Integer.parseInt(pubId);
+		
+		if (title != null && intPubId != 0){
 			
 
 			Book book = new Book();
 			Publisher pub = new Publisher();
 			
 			//note: I'm iffy on the next two statements; just wanted title and pub Id to tbl_book
+			pub.setId(intPubId);
 			book.setPublisher(pub);
-			pub.setId(pubId);
+			
 			
 			try {
 				new AdministratorService().addBook(book);
