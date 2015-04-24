@@ -3,6 +3,7 @@ package com.gcit.training.lws.service;
 //import static org.junit.Assert.fail;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.gcit.training.lws.dao.AuthorDAO;
 import com.gcit.training.lws.domain.Author;
@@ -31,21 +32,23 @@ public class AdministratorService {
 		}
 	}
 	
-	public void getAuthor(Author author)throws Exception {
+	public List<Author> getAuthors()throws Exception {
 		
 		
 		Connection conn = ConnectionUtil.getConnection();
 		
-	
+		List<Author> listAuth;
 		
 		try {
 		
-			new AuthorDAO(conn).updateAuthor(author);
+			listAuth = new AuthorDAO(conn).readAll();
 			conn.commit();
 		} catch(Exception e) {
 			conn.rollback();
 			throw e;
 		}
+		
+		return listAuth;
 		
 	}
 	
