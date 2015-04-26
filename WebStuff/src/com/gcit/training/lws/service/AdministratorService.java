@@ -53,6 +53,37 @@ public class AdministratorService {
 	}
 	
 	
+	public void deleteAuthor(Author author) throws Exception {
+		Connection conn = ConnectionUtil.getConnection();
+		try {
+			new AuthorDAO(conn).removeAuthor(author);
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+	}
+	
+	public List<Publisher> getPublishers()throws Exception {
+		
+		
+		Connection conn = ConnectionUtil.getConnection();
+		
+		List<Publisher> listPublisher;
+		
+		try {
+		
+			listPublisher = new PublisherDAO(conn).readAll();
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
+		return listPublisher;
+		
+	}
+	
 	public void addBook(Book book) throws Exception {
 		Connection conn = ConnectionUtil.getConnection();
 		try {
@@ -63,6 +94,27 @@ public class AdministratorService {
 			throw e;
 		}
 	}
+	
+	public List<Book> getBooks()throws Exception {
+		
+		
+		Connection conn = ConnectionUtil.getConnection();
+		
+		List<Book> listBook;
+		
+		try {
+		
+			listBook = new BookDAO(conn).readAll();
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
+		return listBook;
+		
+	}
+	
 	
 	public void addGenre(Genre genre) throws Exception {
 		Connection conn = ConnectionUtil.getConnection();
