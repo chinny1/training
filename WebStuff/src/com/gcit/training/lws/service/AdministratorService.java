@@ -52,6 +52,17 @@ public class AdministratorService {
 		
 	}
 	
+	public void editAuthor(Author author) throws Exception {
+		Connection conn = ConnectionUtil.getConnection();
+		try {
+			new AuthorDAO(conn).updateAuthor(author);
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
+	}
 	
 	public void deleteAuthor(Author author) throws Exception {
 		Connection conn = ConnectionUtil.getConnection();
@@ -160,7 +171,9 @@ public class AdministratorService {
 			conn.rollback();
 			throw e;
 		}
-	}	
+	}
+
+	
 	
 	
 	

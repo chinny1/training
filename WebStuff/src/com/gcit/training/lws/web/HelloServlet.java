@@ -237,7 +237,7 @@ public class HelloServlet extends HttpServlet {
 		//1,26,7
 		String publisherId = request.getParameter("publisherId");
 		String title = request.getParameter("title");
-
+		
 		Author author = new Author();
 		author.setAuthorId(Integer.parseInt(authorId));
 		
@@ -250,7 +250,7 @@ public class HelloServlet extends HttpServlet {
 		
 		b.setPublisher(p);
 		b.setTitle(title);
-
+		
 		try {
 			new AdministratorService().addBook(b);
 			request.setAttribute("result", "Book added succesfully!");

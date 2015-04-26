@@ -19,7 +19,7 @@ public abstract class BaseDAO<T> {
 		int count = 1;
 		if(vals != null) {
 			for (Object obj : vals) {
-				stmt.setObject(count, obj);
+				stmt.setObject(count++, obj);
 			}
 		}
 		ResultSet rs = stmt.executeQuery();
@@ -33,7 +33,7 @@ public abstract class BaseDAO<T> {
 		int count = 1;
 		if(vals != null) {
 			for (Object obj : vals) {
-				stmt.setObject(count, obj);
+				stmt.setObject(count++, obj);
 			}
 		}
 		ResultSet rs = stmt.executeQuery();
@@ -57,7 +57,7 @@ public abstract class BaseDAO<T> {
 		PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		int count = 1;
 		for (Object obj : vals) {
-			pstmt.setObject(count, obj);
+			pstmt.setObject(count++, obj);
 		}
 		pstmt.executeUpdate();
 		

@@ -23,7 +23,7 @@ ${result}
 	<tr>
 	<td>
 	Choose Book Author: 
-		<select>
+		<select name="authorId">
 		<%for (Author a : authors) {%>
   	<option value="<%=a.getAuthorId()%>"><%=a.getAuthorName() %></option>
 	<%}%>
@@ -36,7 +36,7 @@ ${result}
 	
 	
 	Choose Book Publisher: 
-		<select>
+		<select name="publisherId">
 		<%for (Publisher p : publishers) {%>
   	<option value="<%=p.getId() %>" > <%=p.getName() %></option>
 	<%}%>
