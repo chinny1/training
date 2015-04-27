@@ -24,7 +24,7 @@ import com.gcit.training.lws.domain.Publisher;
  * Servlet implementation class HelloServlet
  */
 //@WebServlet("/HelloServlet")
-@WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook", "/deleteAuthor",
+@WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
 "/editAuthor" })
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -170,7 +170,62 @@ public class HelloServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String authorId = request.getParameter("authorId");
+		
+	
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
+		rd.forward(request, response);
+		
+		
+		
+		
+		String function = request.getRequestURI().substring(
+				request.getContextPath().length(),
+				request.getRequestURI().length());
+		
+		
+		switch (function) {
+		case "/deleteAuthor": {
+			deleteAuthor(request);
+			break;
+		}
+		case "/addBook": {
+			addBook(request);
+			break;
+		}
+		case "/addGenre": {
+			addGenre(request);
+			break;
+		}
+		case "/addPublisher": {
+			addPublisher(request);
+			break;
+		}
+		case "/editAuthor": {
+			editAuthor(request);
+			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			break;
+		}
+
+		default:
+			break;
+		}
+
+		rd.forward(request, response);
+		
+		
+		
+		
+	}
+		
+	
+
+    
+    
+    
+    private void deleteAuthor(HttpServletRequest request) {
+		// 
+    	String authorId = request.getParameter("authorId");
 		Author a = new Author();
 		a.setAuthorId(Integer.parseInt(authorId));
 		try {
@@ -182,17 +237,9 @@ public class HelloServlet extends HttpServlet {
 			request.setAttribute("result",
 					"Author remove failed!: " + e.getMessage());
 		}
-	
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/listAuthors.jsp");
-		rd.forward(request, response);
-		
 	}
 
-    
-    
-    
-    /**
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -213,6 +260,10 @@ public class HelloServlet extends HttpServlet {
 		}
 		case "/addBook": {
 			addBook(request);
+			break;
+		}
+		case "/addGenre": {
+			addGenre(request);
 			break;
 		}
 		case "/addPublisher": {
@@ -302,6 +353,33 @@ public class HelloServlet extends HttpServlet {
 		}
 	}
 
+	
+	
+	private void addGenre(HttpServletRequest request) {
+		
+		String genreNmae = request.getParameter("name");
+		
+		Genre genre = new Genre();
+		genre.setName(genreNmae);
+		
+		
+		try {
+			
+			new AdministratorService().addGenre(genre);
+			request.setAttribute("result", "Genre added succesfully!");
+			
+		} catch (Exception e){
+			
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Genre add failed!: " + e.getMessage());
+			
+			
+		}
+		
+		
+	}
+	
 	private void editAuthor(HttpServletRequest request) {
 		String authorName = request.getParameter("authorName");
 		String authorId = request.getParameter("authorId");
