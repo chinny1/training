@@ -64,9 +64,9 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 			b.setTitle(rs.getString("title"));
 			b.setPublisher(pDAO.readOne(rs.getInt("pubId")));
 			
-			List<Author> authors = (List<Author>) aDAO.readFirstLevel("select * from tbl_author where authorId in "
-					+ "(select authorId from tbl_book_authors where bookId = ?)", new Object[]{b.getBookId()});
-			b.setAuthors(authors);
+			List<Author> authors = (List<Author>) aDAO.readFirstLevel("select * from library.tbl_author where authorId in "
+					+ "(select authorId from library.tbl_book_authors where bookId = ?)", new Object[]{b.getBookId()});
+			b.setAuthors(authors);//not allowing the book author to be shown
 			
 			books.add(b);
 		}

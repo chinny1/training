@@ -7,7 +7,7 @@ public class Book {
 	
 	private String title;
 	
-	List<Author> authors;
+	private List<Author> authors;
 	
 	private Publisher publisher;
 

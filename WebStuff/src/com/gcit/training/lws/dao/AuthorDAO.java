@@ -73,7 +73,8 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 	}
 
 	@Override
-	protected List<Author> mapResultsFirstLevel(ResultSet rs) throws SQLException {
+	//protected List<Author> mapResultsFirstLevel(ResultSet rs) throws SQLException {
+	public List<Author> mapResultsFirstLevel(ResultSet rs) throws SQLException {
 		List<Author> authors = new ArrayList<Author>();
 		BookDAO bDAO = new BookDAO(conn);
 		while (rs.next()) {

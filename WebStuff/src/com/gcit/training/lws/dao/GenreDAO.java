@@ -74,8 +74,8 @@ public class GenreDAO extends BaseDAO<com.gcit.training.lws.domain.Genre> implem
 			b.setName(rs.getString("genre_name"));
 			
 			
-			List<Author> authors = (List<Author>) aDAO.readFirstLevel("select * from tbl_author where authorId in "
-					+ "(select authorId from tbl_genre_authors where genre_id = ?)", new Object[]{b.getGenreId()});
+			//List<Author> authors = (List<Author>) aDAO.readFirstLevel("select * from tbl_author where authorId in "
+					//+ "(select authorId from tbl_genre_authors where genre_id = ?)", new Object[]{b.getGenreId()});
 			//b.setAuthors(authors);
 			
 			genres.add(b);

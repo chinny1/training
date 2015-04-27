@@ -52,6 +52,26 @@ public class AdministratorService {
 		
 	}
 	
+	public List<LibraryBranch> getLibraryBranches() throws Exception {
+		Connection conn = ConnectionUtil.getConnection();
+		
+		List<LibraryBranch> listBranch;
+		try {
+			listBranch = new LibraryBranchDAO(conn).readAll();
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
+		return listBranch;
+	}
+	
+	
+	public Author getAuthor(int authorId) throws Exception {
+		return new AuthorDAO(ConnectionUtil.getConnection()).readOne(authorId);
+	}
+	
 	public void editAuthor(Author author) throws Exception {
 		Connection conn = ConnectionUtil.getConnection();
 		try {
@@ -92,6 +112,26 @@ public class AdministratorService {
 		}
 		
 		return listPublisher;
+		
+	}
+	
+	public List<Genre> getGenres()throws Exception {
+		
+		
+		Connection conn = ConnectionUtil.getConnection();
+		
+		List<Genre> listGenre;
+		
+		try {
+		
+			listGenre = new GenreDAO(conn).readAll();
+			conn.commit();
+		} catch(Exception e) {
+			conn.rollback();
+			throw e;
+		}
+		
+		return listGenre;
 		
 	}
 	
