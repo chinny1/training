@@ -53,6 +53,15 @@ public class AdministratorService {
 		
 	}
 	
+	public List<Author> getAuthors(int pageNo, int pageSize) throws Exception {
+		AuthorDAO aDAO = new AuthorDAO(ConnectionUtil.getConnection());
+		aDAO.setPageNo(pageNo);
+		aDAO.setPageSize(pageSize);
+		return aDAO.readAll(aDAO.getPageNo(),aDAO.getPageSize());
+	}
+	
+	
+	
 	public List<LibraryBranch> getLibraryBranches() throws Exception {
 		Connection conn = ConnectionUtil.getConnection();
 		

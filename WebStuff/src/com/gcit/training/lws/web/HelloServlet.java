@@ -26,7 +26,7 @@ import com.gcit.training.lws.domain.Publisher;
  */
 //@WebServlet("/HelloServlet")
 @WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
-"/editAuthor", "/searchBooks","/searchAuthors" })
+"/editAuthor", "/searchBooks","/searchAuthors", "/pageAuthors" })
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -192,8 +192,15 @@ public class HelloServlet extends HttpServlet {
 			break;
 		}
 		
+
 		case "/editAuthor": {
 			editAuthor(request);
+			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			break;
+		}
+		
+		case "/pageAuthors": {
+			pageAuthors(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
 			break;
 		}
@@ -434,6 +441,27 @@ public class HelloServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("result",
 					"Author search failed!: " + e.getMessage());
+		}
+
+		
+	}
+	
+	private void pageAuthors(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		String pageN = request.getParameter("pageNo");
+		
+		int pn = Integer.parseInt(pageN); //page number
+		try {
+			
+			int ps = 5;//page size
+			List<Author> authors = new AdministratorService().getAuthors(pn, ps);
+			request.setAttribute("authors", authors);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Page change failed!: " + e.getMessage());
 		}
 
 		

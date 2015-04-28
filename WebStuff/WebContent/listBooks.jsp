@@ -8,9 +8,14 @@
 <%
 	List<Book> books = null;
 	if (request.getAttribute("books") != null) {
+		
 		books = (List<Book>) request.getAttribute("books");
 	} else {
+		
+		//String authorId = request.getParameter("pageNo");
+		
 		books = new AdministratorService().getBooks();
+			
 	}
 %>
 <%-- <%@include file="include.html"%> --%>
@@ -20,6 +25,8 @@ ${result}
 		placeholder="Enter string to search Books" /><input type="submit"
 		value="Search!" />
 </form>
+
+
 <table class="table">
 	<tr>
 		<th>Book Id</th>

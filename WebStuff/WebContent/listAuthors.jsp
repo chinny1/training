@@ -15,7 +15,19 @@ if(request.getAttribute("authors") != null) {
 	
 } else{
 	//books = new AdministratorService().getBooks();
-	authors = new AdministratorService().getAuthors();
+	//authors = new AdministratorService().getAuthors();
+	int pageNo = 0;
+// 	if (pageNo > 0){
+		
+// 		pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		
+// 	}else{
+	
+// 		pageNo = 1;
+		
+// 	}
+	
+	authors = new AdministratorService().getAuthors(pageNo, 5);
 }
 %>
 <%-- <%@include file="include.html"%> --%>
@@ -27,6 +39,14 @@ ${result}
 		placeholder="Enter string to search Authors" /><input type="submit"
 		value="Search!" />
 </form>
+
+
+<nav>
+	<ul class="pagination">
+		<li><a href="pageAuthors?pageNo=1">1</a></li>
+		<li><a href="pageAuthors?pageNo=2">2</a></li>
+	</ul>
+</nav>
 
 <table class="table">
 	<tr>

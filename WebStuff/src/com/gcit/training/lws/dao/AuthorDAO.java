@@ -41,6 +41,11 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 	public List<Author> readAll() throws SQLException {
 		return (List<Author>) read("select * from tbl_author", null);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Author> readAll(int pageNo, int pageSize) throws SQLException {
+		return (List<Author>) read("select * from tbl_author LIMIT ? , ? ", new Object[] {pageNo, pageSize});
+	}
 
 	public Author readOne(int authorId) throws SQLException {
 		@SuppressWarnings("unchecked")
