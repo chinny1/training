@@ -4,13 +4,29 @@
 <%@page import="java.util.List"%>
 <%@page import="com.gcit.training.lws.service.AdministratorService;"%>
 <%
-	List<Author> authors = new AdministratorService().getAuthors();
+	//List<Author> authors = new AdministratorService().getAuthors();
+
+
+//List<Book> books = null;
+List<Author> authors = null;
+if(request.getAttribute("authors") != null) {
+	//books = (List<Book>) request.getAttribute("books");
+	authors = (List<Author>) request.getAttribute("authors");
+	
+} else{
+	//books = new AdministratorService().getBooks();
+	authors = new AdministratorService().getAuthors();
+}
 %>
 <%-- <%@include file="include.html"%> --%>
-<%@include file="include.html" %>
+<%@include file="include.html"%>
 ${result}
 
-
+<form action="searchAuthors" method="post">
+	<input type="text" name="searchString" class="col-md-8"
+		placeholder="Enter string to search Authors" /><input type="submit"
+		value="Search!" />
+</form>
 
 <table class="table">
 	<tr>
@@ -40,10 +56,7 @@ ${result}
 
 <div id="myModal1" class="modal fade">
 	<div class="modal-dialog">
-		<div class="modal-content">
-
-</div>
+		<div class="modal-content"></div>
 	</div>
-
 </div>
 

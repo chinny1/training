@@ -51,6 +51,12 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 	public Author readOne(int authorId) throws SQLException {
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> searchBookByTitle(String searchString) throws SQLException {
+		searchString = "%" + searchString + "%";
+		return (List<Book>) read("select * from tbl_book where title like ?", new Object[]{searchString});
+	}
 
 	@Override
 	protected List<Book> mapResults(ResultSet rs) throws SQLException {

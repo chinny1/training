@@ -2,6 +2,7 @@ package com.gcit.training.lws.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +26,7 @@ import com.gcit.training.lws.domain.Publisher;
  */
 //@WebServlet("/HelloServlet")
 @WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
-"/editAuthor" })
+"/editAuthor", "/searchBooks","/searchAuthors" })
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -187,20 +188,10 @@ public class HelloServlet extends HttpServlet {
 		switch (function) {
 		case "/deleteAuthor": {
 			deleteAuthor(request);
+			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
 			break;
 		}
-		case "/addBook": {
-			addBook(request);
-			break;
-		}
-		case "/addGenre": {
-			addGenre(request);
-			break;
-		}
-		case "/addPublisher": {
-			addPublisher(request);
-			break;
-		}
+		
 		case "/editAuthor": {
 			editAuthor(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
@@ -275,6 +266,17 @@ public class HelloServlet extends HttpServlet {
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
 			break;
 		}
+		case "/searchBooks": {
+			searchBooks(request);
+			rd = getServletContext().getRequestDispatcher("/listBooks.jsp");
+			break;
+		}
+		case "/searchAuthors": {
+			searchAuthors(request);
+			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			break;
+		}
+		
 
 		default:
 			break;
@@ -282,6 +284,8 @@ public class HelloServlet extends HttpServlet {
 
 		rd.forward(request, response);
 	}
+
+
 
 	private void addBook(HttpServletRequest request) {
 		String authorId = request.getParameter("authorId");
@@ -313,6 +317,7 @@ public class HelloServlet extends HttpServlet {
 		}
 	}
 
+	
 	
 	private void addPublisher(HttpServletRequest request) {
 		String publisherName = request.getParameter("publisherName");
@@ -400,8 +405,39 @@ public class HelloServlet extends HttpServlet {
 	}
 
 	
+	private void searchBooks(HttpServletRequest request) {
+		String searchString = request.getParameter("searchString");
+		try {
+			List<Book> books = new AdministratorService()
+					.searchBooks(searchString);
+			request.setAttribute("books", books);
+			// request.setAttribute("result", "Publisher added succesfully!");
+		} catch (Exception e) {
+			// 
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Book search failed!: " + e.getMessage());
+		}
 
+	}
 	
+	private void searchAuthors(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		String searchString = request.getParameter("searchString");
+		try {
+			List<Author> authors = new AdministratorService()
+					.searchAuthors(searchString);
+			request.setAttribute("authors", authors);
+			// request.setAttribute("result", "Publisher added succesfully!");
+		} catch (Exception e) {
+			// 
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Author search failed!: " + e.getMessage());
+		}
+
+		
+	}
 	
 	// add library branch:
 	

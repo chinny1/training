@@ -54,6 +54,16 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 		}
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	public List<Author> searchAuthor(String searchString) throws SQLException {
+
+		searchString = "%" + searchString + "%";
+		return (List<Author>) read("select * from tbl_author where authorName like ?", new Object[]{searchString});
+
+	}
+	
+	
 	@Override
 	protected List<Author> mapResults(ResultSet rs) throws SQLException {
 		List<Author> authors = new ArrayList<Author>();
@@ -86,4 +96,6 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 		}
 		return authors;
 	}
+
+
 }

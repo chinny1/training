@@ -3,6 +3,7 @@ package com.gcit.training.lws.service;
 //import static org.junit.Assert.fail;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.gcit.training.lws.dao.AuthorDAO;
@@ -145,6 +146,15 @@ public class AdministratorService {
 			throw e;
 		}
 	}
+	public List<Book> searchBooks(String searchString) throws Exception {
+		return new BookDAO(ConnectionUtil.getConnection()).searchBookByTitle(searchString);
+	}
+	
+	public List<Author> searchAuthors(String searchString) throws Exception {
+		
+		return new AuthorDAO(ConnectionUtil.getConnection()).searchAuthor(searchString);
+	}
+	
 	
 	public List<Book> getBooks()throws Exception {
 		
@@ -165,6 +175,7 @@ public class AdministratorService {
 		return listBook;
 		
 	}
+	
 	
 	
 	public void addGenre(Genre genre) throws Exception {
@@ -212,6 +223,8 @@ public class AdministratorService {
 			throw e;
 		}
 	}
+
+
 
 	
 	
