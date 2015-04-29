@@ -2,6 +2,7 @@ package com.gcit.training.lws.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,6 +49,13 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 		return (List<Book>) read("select * from tbl_book", null);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Book> readAll(int pageNo, int pageSize) throws SQLException {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+		return (List<Book>) read("select * from tbl_book", null);
+	}
+	
 	public Author readOne(int authorId) throws SQLException {
 		return null;
 	}
@@ -57,7 +65,18 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 		searchString = "%" + searchString + "%";
 		return (List<Book>) read("select * from tbl_book where title like ?", new Object[]{searchString});
 	}
-
+	
+	public int searchBookByTitleCount(String searchString) throws SQLException {
+		searchString = "%" + searchString + "%";
+		PreparedStatement stmt = getConnection().prepareStatement("select count(1) from tbl_book where title like ?");
+		stmt.setString(1, searchString);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) 
+			return rs.getInt(1);
+		else 
+			return 0;
+	}
+	
 	@Override
 	protected List<Book> mapResults(ResultSet rs) throws SQLException {
 		List<Book> books = new ArrayList<Book>();
@@ -95,4 +114,26 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 		}
 		return books;
 	}
+
+	public List<Book> searchBookByTitle(String searchString, int pageNo, int pageSize) throws SQLException {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+		if(searchString == null || searchString.trim().length() == 0) {
+			return readAll(pageNo, pageSize);
+		} else {
+			searchString = "%" + searchString + "%";
+			return (List<Book>) read("select * from tbl_book where title like ?", new Object[]{searchString});
+		}
+	}
+
+	public int readAllCount() throws SQLException {
+		PreparedStatement stmt = getConnection().prepareStatement("select count(1) from tbl_book");
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) 
+			return rs.getInt(1);
+		else 
+			return 0;
+	}
+
+
 }

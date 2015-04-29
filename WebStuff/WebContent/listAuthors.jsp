@@ -16,7 +16,7 @@ if(request.getAttribute("authors") != null) {
 } else{
 	//books = new AdministratorService().getBooks();
 	//authors = new AdministratorService().getAuthors();
-	int pageNo = 0;
+	int pageNo = 1;
 // 	if (pageNo > 0){
 		
 // 		pageNo = Integer.parseInt(request.getParameter("pageNo"));
@@ -45,6 +45,11 @@ ${result}
 	<ul class="pagination">
 		<li><a href="pageAuthors?pageNo=1">1</a></li>
 		<li><a href="pageAuthors?pageNo=2">2</a></li>
+<!-- 		<li><button class="btn btn-danger" onclick="javascript:location.href='pageAuthors?pageNo=1';">1</button></li> -->
+<!-- 		<li><button class="btn btn-danger" onclick="javascript:location.href='pageAuthors?pageNo=2';">2</button></li> -->
+		
+		
+		
 	</ul>
 </nav>
 

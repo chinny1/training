@@ -2,6 +2,7 @@ package com.gcit.training.lws.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -100,6 +101,24 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 			authors.add(a);
 		}
 		return authors;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Author> searchAuthorByName(String searchString, int pageNo,
+			int pageSize) throws SQLException {
+		searchString = "%" + searchString + "%";
+		return (List<Author>) read("select * from tbl_author where authorName like ?", new Object[]{searchString});
+	}
+
+	public int searchAuthorByNameCount(String searchString) throws SQLException {
+		searchString = "%" + searchString + "%";
+		PreparedStatement stmt = getConnection().prepareStatement("select count(1) from tbl_author where authorName like ?");
+		stmt.setString(1, searchString);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) 
+			return rs.getInt(1);
+		else 
+			return 0;
 	}
 
 

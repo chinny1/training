@@ -11,7 +11,7 @@ public abstract class BaseDAO<T> {
 	
 	
 	private int pageNo = -1;
-	private int pageSize = 10;
+	private int pageSize = 5;
 
 	
 	protected Connection conn = null;
@@ -20,6 +20,14 @@ public abstract class BaseDAO<T> {
 	}
 
 	public List<?> read(String query, Object[] vals) throws SQLException {
+		
+
+		if(getPageNo() > -1) {
+			int start = ((pageNo-1)*10);
+			if(start > 0) start++;
+			query = query + " LIMIT " + start + "," + pageSize;
+		}
+		
 		PreparedStatement stmt = getConnection().prepareStatement(query);
 		int count = 1;
 		if(vals != null) {
@@ -73,7 +81,7 @@ public abstract class BaseDAO<T> {
 			return -1;
 	}
 
-	private Connection getConnection() throws SQLException {
+	protected Connection getConnection() throws SQLException {
 		return conn;
 	}
 

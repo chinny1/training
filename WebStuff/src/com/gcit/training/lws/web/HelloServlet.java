@@ -26,7 +26,7 @@ import com.gcit.training.lws.domain.Publisher;
  */
 //@WebServlet("/HelloServlet")
 @WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
-"/editAuthor", "/searchBooks","/searchAuthors", "/pageAuthors" })
+"/editAuthor", "/searchBooks","/searchAuthors","/pageAuthors" , "/pageBooks","/pageAuthors2", "/searchAuthors" })
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -175,7 +175,6 @@ public class HelloServlet extends HttpServlet {
 	
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/admin.jsp");
-		rd.forward(request, response);
 		
 		
 		
@@ -202,9 +201,45 @@ public class HelloServlet extends HttpServlet {
 		case "/pageAuthors": {
 			pageAuthors(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			
 			break;
 		}
 
+		case "/pageBooks": {
+			String pageNo = request.getParameter("pageNo");
+			String searchString = request.getParameter("searchString");
+			try {
+				List<Book> books = new AdministratorService().searchBooks(
+						searchString, Integer.parseInt(pageNo), 10);
+				StringBuilder str = new StringBuilder();
+				str.append("<tr><th>Id</th><th>Title</th><th>Publisher</th><th>Author(s)</th><th>Edit</th><th>Delete</th></tr>");
+	
+				for (Book b : books) {
+					str.append("<tr><td>"+b.getBookId()+"</td><td>"+b.getTitle()+"</td>"
+							+ "<td>");
+							if(b.getPublisher() != null) { 
+								str.append(b.getPublisher().getName());
+							}
+							str.append("</td>"+ "<td>");
+							if(b.getAuthors() != null && b.getAuthors().size() > 0) {
+								for(Author a : b.getAuthors()) { 
+									str.append(a.getAuthorName() +",");
+									}
+							}
+							str.append("</td><td><button class='btn btn-success'href='editAuthor.jsp?authorIdToEdit="+b.getBookId()+"'data-target='#myModal1' data-toggle='modal'>");
+							str.append("Edit</button></td><td><button class='btn btn-danger'onclick='javascript:location.href='deleteAuthor?authorId="+b.getBookId()+"';'>");
+							str.append("Delete</button></td></tr>");
+				}
+	
+				response.getWriter().write(str.toString());
+				
+				rd = getServletContext().getRequestDispatcher("/listBooks2.jsp");
+				break;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		default:
 			break;
 		}
@@ -275,12 +310,17 @@ public class HelloServlet extends HttpServlet {
 		}
 		case "/searchBooks": {
 			searchBooks(request);
-			rd = getServletContext().getRequestDispatcher("/listBooks.jsp");
+			rd = getServletContext().getRequestDispatcher("/listBooks2.jsp");
 			break;
 		}
 		case "/searchAuthors": {
 			searchAuthors(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			break;
+		}
+		case "/searchAuthors": {
+			searchAuthors(request);
+			rd = getServletContext().getRequestDispatcher("/listAuthors2.jsp");
 			break;
 		}
 		
@@ -412,18 +452,42 @@ public class HelloServlet extends HttpServlet {
 	}
 
 	
+//	private void searchBooks(HttpServletRequest request) {
+//		String searchString = request.getParameter("searchString");
+//		try {
+//			List<Book> books = new AdministratorService()
+//					.searchBooks(searchString);
+//			request.setAttribute("books", books);
+//			// request.setAttribute("result", "Publisher added succesfully!");
+//		} catch (Exception e) {
+//			// 
+//			e.printStackTrace();
+//			request.setAttribute("result",
+//					"Book search failed!: " + e.getMessage());
+//		}
+//
+//	}
+	
 	private void searchBooks(HttpServletRequest request) {
 		String searchString = request.getParameter("searchString");
+		String pageNo = request.getParameter("pageNo");
+		String pageSize = request.getParameter("pageSize");
+
 		try {
-			List<Book> books = new AdministratorService()
-					.searchBooks(searchString);
+			List<Book> books = new AdministratorService().searchBooks(
+					searchString, Integer.parseInt(pageNo),
+					Integer.parseInt(pageSize));
+			int count = new AdministratorService()
+					.searchBooksCount(searchString);
 			request.setAttribute("books", books);
+			request.setAttribute("count", count);
+			request.setAttribute("searchString", searchString);
 			// request.setAttribute("result", "Publisher added succesfully!");
 		} catch (Exception e) {
-			// 
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			request.setAttribute("result",
-					"Book search failed!: " + e.getMessage());
+					"Publisher add failed!: " + e.getMessage());
 		}
 
 	}
@@ -446,6 +510,30 @@ public class HelloServlet extends HttpServlet {
 		
 	}
 	
+	private void searchAuthors2(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		String searchString = request.getParameter("searchString");
+		String pageNo = request.getParameter("pageNo");
+		String pageSize = request.getParameter("pageSize");
+		try {
+			List<Author> authors = new AdministratorService()
+					.searchAuthors(searchString,Integer.parseInt(pageNo),
+							Integer.parseInt(pageSize));
+					int count = new AdministratorService()
+							.searchAuthorsCount(searchString);
+					request.setAttribute("authors", authors);
+					request.setAttribute("count", count);
+					request.setAttribute("searchString", searchString);
+					// request.setAttribute("result", "Publisher added succesfully!");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					request.setAttribute("result",
+							"Publisher add failed!: " + e.getMessage());
+				}		
+	}
+
+	
 	private void pageAuthors(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		String pageN = request.getParameter("pageNo");
@@ -466,6 +554,9 @@ public class HelloServlet extends HttpServlet {
 
 		
 	}
+	
+	
+
 	
 	// add library branch:
 	

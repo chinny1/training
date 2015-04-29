@@ -57,7 +57,8 @@ public class AdministratorService {
 		AuthorDAO aDAO = new AuthorDAO(ConnectionUtil.getConnection());
 		aDAO.setPageNo(pageNo);
 		aDAO.setPageSize(pageSize);
-		return aDAO.readAll(aDAO.getPageNo(),aDAO.getPageSize());
+		//return aDAO.readAll(aDAO.getPageNo(),aDAO.getPageSize());
+		return aDAO.readAll();
 	}
 	
 	
@@ -155,6 +156,7 @@ public class AdministratorService {
 			throw e;
 		}
 	}
+	
 	public List<Book> searchBooks(String searchString) throws Exception {
 		return new BookDAO(ConnectionUtil.getConnection()).searchBookByTitle(searchString);
 	}
@@ -185,6 +187,10 @@ public class AdministratorService {
 		
 	}
 	
+	
+	public int getBooksCount() throws Exception {
+		return new BookDAO(ConnectionUtil.getConnection()).readAllCount();
+	}
 	
 	
 	public void addGenre(Genre genre) throws Exception {
@@ -233,6 +239,22 @@ public class AdministratorService {
 		}
 	}
 
+	
+	public List<Book> searchBooks(String searchString, int pageNo, int pageSize) throws Exception {
+		return new BookDAO(ConnectionUtil.getConnection()).searchBookByTitle(searchString, pageNo, pageSize);
+	}
+
+	public int searchBooksCount(String searchString) throws Exception {
+		return new BookDAO(ConnectionUtil.getConnection()).searchBookByTitleCount(searchString);
+	}
+
+	public List<Author> searchAuthors(String searchString, int pageNo, int pageSize) throws Exception {
+		return new AuthorDAO(ConnectionUtil.getConnection()).searchAuthorByName(searchString, pageNo, pageSize);
+	}
+
+	public int searchAuthorsCount(String searchString) throws Exception {
+		return new AuthorDAO(ConnectionUtil.getConnection()).searchAuthorByNameCount(searchString);
+	}
 
 
 	
