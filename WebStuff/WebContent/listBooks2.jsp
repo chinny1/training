@@ -5,12 +5,14 @@
 <%
 	List<Book> books = null;
 	int pageNo = 1;
-	int pageSize = 10;
+	int pageSize = 5;
 	int count = 0;
 
 	if(request.getAttribute("books") != null) {
 		count = (int) request.getAttribute("count");
 		books = (List<Book>) request.getAttribute("books");
+		//pageNo = request.getAttribute("pageNo");
+		
 	} else{
 		books = new AdministratorService().getBooks();
 		count = new AdministratorService().getBooksCount();
@@ -21,8 +23,20 @@
 
 <script>
 	function pageBooks(pageNo) {
-		var searchString = document.getElementById("searchString").value;
-		location.href="pageBooks?pageNo="+pageNo+"&searchString="+searchString;
+//		var searchString = document.getElementById("searchString").value;
+//		location.href="pageBooks?pageNo="+pageNo+"&searchString="+searchString;
+		$("#pageNo").val(pageNo);
+		$.ajax({
+			  url: "pageBooks",
+			  data: {
+				  		searchString: $("#searchString").val(),
+				  		pageNo: pageNo,
+				  		pageSize: $("#pageSize").val()
+				  	}
+			}).done(function(data) {
+			  //alert(data);
+			  $("#resultSection").html(data);
+			});
 		
 	}
 	

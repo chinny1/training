@@ -42,7 +42,7 @@ public class AdministratorService {
 		
 		try {
 		
-			listAuth = new AuthorDAO(conn).readAll();
+			listAuth = new AuthorDAO(conn).readAll(1,5);
 			conn.commit();
 		} catch(Exception e) {
 			conn.rollback();
@@ -60,6 +60,10 @@ public class AdministratorService {
 		//return aDAO.readAll(aDAO.getPageNo(),aDAO.getPageSize());
 		return aDAO.readAll();
 	}
+	
+//	public List<Book> getBooks() throws Exception {
+//		return new BookDAO(ConnectionUtil.getConnection()).readAll(1, 10);
+//	}
 	
 	
 	
@@ -167,31 +171,39 @@ public class AdministratorService {
 	}
 	
 	
-	public List<Book> getBooks()throws Exception {
-		
-		
-		Connection conn = ConnectionUtil.getConnection();
-		
-		List<Book> listBook;
-		
-		try {
-		
-			listBook = new BookDAO(conn).readAll();
-			conn.commit();
-		} catch(Exception e) {
-			conn.rollback();
-			throw e;
-		}
-		
-		return listBook;
-		
-	}
+//	public List<Book> getBooks()throws Exception {
+//		
+//		
+//		Connection conn = ConnectionUtil.getConnection();
+//		
+//		List<Book> listBook;
+//		
+//		try {
+//		
+//			listBook = new BookDAO(conn).readAll();
+//			conn.commit();
+//		} catch(Exception e) {
+//			conn.rollback();
+//			throw e;
+//		}
+//		
+//		return listBook;
+//		
+//	}
 	
+	public List<Book> getBooks() throws Exception {
+		return new BookDAO(ConnectionUtil.getConnection()).readAll(1, 10);
+	}
 	
 	public int getBooksCount() throws Exception {
 		return new BookDAO(ConnectionUtil.getConnection()).readAllCount();
 	}
+
 	
+	
+	public int getAuthorsCount() throws Exception {
+		return new AuthorDAO(ConnectionUtil.getConnection()).readAllCount();
+	}
 	
 	public void addGenre(Genre genre) throws Exception {
 		Connection conn = ConnectionUtil.getConnection();

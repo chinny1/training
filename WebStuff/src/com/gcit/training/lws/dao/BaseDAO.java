@@ -23,8 +23,8 @@ public abstract class BaseDAO<T> {
 		
 
 		if(getPageNo() > -1) {
-			int start = ((pageNo-1)*10);
-			if(start > 0) start++;
+			int start = ((pageNo-1)*getPageSize());
+			//if(start > 5) start++;
 			query = query + " LIMIT " + start + "," + pageSize;
 		}
 		

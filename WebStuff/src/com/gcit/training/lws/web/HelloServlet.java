@@ -26,7 +26,7 @@ import com.gcit.training.lws.domain.Publisher;
  */
 //@WebServlet("/HelloServlet")
 @WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
-"/editAuthor", "/searchBooks","/searchAuthors","/pageAuthors" , "/pageBooks","/pageAuthors2", "/searchAuthors" })
+"/editAuthor", "/searchBooks","/searchAuthors","/pageAuthors" , "/pageBooks","/pageAuthors2","/searchAuthors2"})
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -171,23 +171,20 @@ public class HelloServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		
 	
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/admin.jsp");
-		
-		
-		
-		
 		String function = request.getRequestURI().substring(
 				request.getContextPath().length(),
 				request.getRequestURI().length());
 		
 		
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
+		
 		switch (function) {
 		case "/deleteAuthor": {
 			deleteAuthor(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			rd.forward(request, response);
 			break;
 		}
 		
@@ -195,13 +192,14 @@ public class HelloServlet extends HttpServlet {
 		case "/editAuthor": {
 			editAuthor(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
+			rd.forward(request, response);
 			break;
 		}
 		
 		case "/pageAuthors": {
 			pageAuthors(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
-			
+			rd.forward(request, response);
 			break;
 		}
 
@@ -232,19 +230,55 @@ public class HelloServlet extends HttpServlet {
 				}
 	
 				response.getWriter().write(str.toString());
+				break;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+
+
+		}
+		
+		
+		case "/pageAuthors2": {
+			String pageNo = request.getParameter("pageNo");
+			String searchString = request.getParameter("searchString");
+			try {
+				List<Author> authors = new AdministratorService()
+				.searchAuthors(searchString,Integer.parseInt(pageNo),5);
 				
-				rd = getServletContext().getRequestDispatcher("/listBooks2.jsp");
+				StringBuilder str = new StringBuilder();
+				str.append("<tr><th>Author Id</th><th>Author Name</th><th>Edit</th><th>Delete</th></tr>");
+	
+				for (Author a : authors) {
+					str.append("<tr><td>"+a.getAuthorId()+"</td><td>"+a.getAuthorName()+"</td>"
+							+ "<td>");
+//							if(b.getPublisher() != null) { 
+//								str.append(b.getPublisher().getName());
+//							}
+//							str.append("</td>"+ "<td>");
+//							if(b.getAuthors() != null && b.getAuthors().size() > 0) {
+//								for(Author a : b.getAuthors()) { 
+//									str.append(a.getAuthorName() +",");
+//									}
+//							}
+							str.append("</td><td><button class='btn btn-success'href='editAuthor.jsp?authorIdToEdit="+a.getAuthorId()+"'data-target='#myModal1' data-toggle='modal'>");
+							str.append("Edit</button></td><td><button class='btn btn-danger'onclick='javascript:location.href='deleteAuthor?authorId="+a.getAuthorId()+"';'>");
+							str.append("Delete</button></td></tr>");
+				}
+	
+				response.getWriter().write(str.toString());
 				break;
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
+		
 		default:
 			break;
 		}
 
-		rd.forward(request, response);
+		
 		
 		
 		
@@ -318,8 +352,8 @@ public class HelloServlet extends HttpServlet {
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");
 			break;
 		}
-		case "/searchAuthors": {
-			searchAuthors(request);
+		case "/searchAuthors2": {
+			searchAuthors2(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors2.jsp");
 			break;
 		}
@@ -468,6 +502,27 @@ public class HelloServlet extends HttpServlet {
 //
 //	}
 	
+
+	private void pageBooks(HttpServletRequest request) {
+		String pageNo = request.getParameter("pageNo");
+		String searchString = request.getParameter("searchString");
+		try {
+			List<Book> books = new AdministratorService().searchBooks(
+					searchString, Integer.parseInt(pageNo), 10);
+			int count = new AdministratorService()
+					.searchBooksCount(searchString);
+			request.setAttribute("books", books);
+			request.setAttribute("count", count);
+			request.setAttribute("searchString", searchString);
+			// request.setAttribute("result", "Publisher added succesfully!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Publisher add failed!: " + e.getMessage());
+		}
+	}
+	
 	private void searchBooks(HttpServletRequest request) {
 		String searchString = request.getParameter("searchString");
 		String pageNo = request.getParameter("pageNo");
@@ -482,6 +537,7 @@ public class HelloServlet extends HttpServlet {
 			request.setAttribute("books", books);
 			request.setAttribute("count", count);
 			request.setAttribute("searchString", searchString);
+			request.setAttribute("pageNo", pageNo);
 			// request.setAttribute("result", "Publisher added succesfully!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -524,6 +580,8 @@ public class HelloServlet extends HttpServlet {
 					request.setAttribute("authors", authors);
 					request.setAttribute("count", count);
 					request.setAttribute("searchString", searchString);
+					request.setAttribute("pageNo", pageNo);
+					
 					// request.setAttribute("result", "Publisher added succesfully!");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -555,7 +613,25 @@ public class HelloServlet extends HttpServlet {
 		
 	}
 	
-	
+	private void pageAuthors2(HttpServletRequest request) {
+		String pageNo = request.getParameter("pageNo");
+		String searchString = request.getParameter("searchString");
+		try {
+			List<Author> authors = new AdministratorService().searchAuthors(
+					searchString, Integer.parseInt(pageNo), 10);
+			int count = new AdministratorService()
+					.searchBooksCount(searchString);
+			request.setAttribute("authors", authors);
+			request.setAttribute("count", count);
+			request.setAttribute("searchString", searchString);
+			// request.setAttribute("result", "Publisher added succesfully!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Publisher add failed!: " + e.getMessage());
+		}
+	}
 
 	
 	// add library branch:
