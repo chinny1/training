@@ -23,9 +23,9 @@ public abstract class BaseDAO<T> {
 		
 
 		if(getPageNo() > -1) {
-			int start = ((pageNo-1)*getPageSize());
+			int start = ((getPageNo()-1)*getPageSize());
 			//if(start > 5) start++;
-			query = query + " LIMIT " + start + "," + pageSize;
+			query = query + " LIMIT " + start + "," + getPageSize();
 		}
 		
 		PreparedStatement stmt = getConnection().prepareStatement(query);

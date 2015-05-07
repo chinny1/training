@@ -51,23 +51,46 @@
 	}
 	
 	function searchAuthors() {
+		
 		$.ajax({
-			  url: "pageAuthors2",
+			  url: "countSearchAuthors",
 			  data: {
-				  		searchString: $("#searchString").val(),
-				  		pageNo: $("#pageNo").val(),
-				  		pageSize: $("#pageSize").val()
+				  		searchString: $("#searchString").val()
 				  	}
 			}).done(function(data) {
-			  //alert(data);
-			  $("#resultSection").html(data);
+				//alert(data);
+				var pageSectionString = "<nav><ul class='pagination'>";
+				var end = (data/5);
+				if(data%5 != 0) 
+					end = end+1;
+				for(var i = 1; i <= end; i++) { 
+					pageSectionString = pageSectionString+"<li><a href='javascript:pageAuthors("+i+");'>"+i+"</a></li>";
+				}
+				
+				pageSectionString = pageSectionString+"</ul></nav>";
+				
+				$("#pageSection").html(pageSectionString);
+				
+				$.ajax({
+					  url: "pageAuthors2",
+					  data: {
+						  		searchString: $("#searchString").val(),
+						  		pageNo: 1,
+						  		pageSize: $("#pageSize").val()
+						  	}
+					}).done(function(data) {
+					  //alert(data);
+					  $("#resultSection").html(data);
+					});
 			});
+		
 		
 	}
 
 </script>
 
 ${result}
+<div id="pageSection">
 <nav>
 	<ul class="pagination">
 
@@ -80,6 +103,7 @@ ${result}
 		
 	</ul>
 </nav>
+</div>
 <form action="searchAuthors2" method="post">
 	<input type="text" id="searchString" name="searchString" value="${searchString}"
 	class="col-md-8" placeholder="Enter string to search Authors"/><input type="button" onclick="javascript:searchAuthors();" value="Search!" />

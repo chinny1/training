@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.gcit.training.lws.domain.Author;
 import com.gcit.training.lws.domain.Book;
+import com.gcit.training.lws.domain.Publisher;
 
 public class BookDAO extends BaseDAO<Book> implements Serializable {
 
@@ -38,10 +39,15 @@ public class BookDAO extends BaseDAO<Book> implements Serializable {
 		}
 	}
 
-	public void updateAuthor(Book book) throws SQLException {
+	public void updateBook(Book book) throws SQLException {
+		
+		save("update tbl_book set title = ? where bookId = ?",
+				new Object[] { book.getTitle(), book.getBookId() });
 	}
 
-	public void removeAuthor(Book book) throws SQLException {
+	public void removeBook(Book book) throws SQLException {
+		save("delete from tbl_book where  bookId = ?",
+				new Object[] { book.getBookId() });
 	}
 
 	@SuppressWarnings("unchecked")

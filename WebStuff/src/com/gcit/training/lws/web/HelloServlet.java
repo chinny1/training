@@ -26,7 +26,7 @@ import com.gcit.training.lws.domain.Publisher;
  */
 //@WebServlet("/HelloServlet")
 @WebServlet({"/HelloServlet","/addAuthor", "/addPublisher", "/addBook","/addGenre", "/deleteAuthor",
-"/editAuthor", "/searchBooks","/searchAuthors","/pageAuthors" , "/pageBooks","/pageAuthors2","/searchAuthors2"})
+"/editAuthor", "/searchBooks","/searchAuthors","/pageAuthors" , "/pageBooks","/pageAuthors2","/searchAuthors2", "/countSearchAuthors"})
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -181,6 +181,19 @@ public class HelloServlet extends HttpServlet {
 				"/admin.jsp");
 		
 		switch (function) {
+		case "/countSearchAuthors": {
+			String searchString = request.getParameter("searchString");
+			try {
+				int count = new AdministratorService().searchAuthorsCount(searchString);
+				response.getWriter().write(String.valueOf(count));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				response.getWriter().write("0");
+			}
+			break;
+		}
+
 		case "/deleteAuthor": {
 			deleteAuthor(request);
 			rd = getServletContext().getRequestDispatcher("/listAuthors.jsp");

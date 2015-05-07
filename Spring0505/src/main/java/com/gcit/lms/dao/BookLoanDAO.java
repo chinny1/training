@@ -32,7 +32,7 @@ public class BookLoanDAO extends BaseDAO<BookLoan> implements Serializable,
 
 	public void addBookLoan(BookLoan bL) throws SQLException {
 
-		Integer pubId = null;
+		//Integer pubId = null;
 //		if (bk.getPublisher() != null)
 //			pubId = bL.getPublisher().getId();
 

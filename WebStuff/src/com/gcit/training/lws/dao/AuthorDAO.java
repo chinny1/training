@@ -123,10 +123,11 @@ public class AuthorDAO extends BaseDAO<Author> implements Serializable {
 		PreparedStatement stmt = getConnection().prepareStatement("select count(1) from tbl_author where authorName like ?");
 		stmt.setString(1, searchString);
 		ResultSet rs = stmt.executeQuery();
+		int count = 0;
 		if(rs.next()) 
-			return rs.getInt(1);
-		else 
-			return 0;
+			count = rs.getInt(1);
+
+		return count;
 	}
 
 	public int readAllCount() throws SQLException {
