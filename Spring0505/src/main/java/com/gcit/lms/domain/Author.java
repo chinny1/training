@@ -1,27 +1,28 @@
 package com.gcit.lms.domain;
 
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
+@Document
 public class Author {
 	
-	private int authorId;
+	@Id
+	private long authorId;
 
 	private String authorName;
-	private List<Book> books;
-	//
 	
 	/**
 	 * @return the authorId
 	 */
-	public int getAuthorId() {
+	public long getAuthorId() {
 		return authorId;
 	}
 
 	/**
 	 * @param authorId the authorId to set
 	 */
-	public void setAuthorId(int authorId) {
+	public void setAuthorId(long authorId) {
 		this.authorId = authorId;
 	}
 
@@ -39,22 +40,16 @@ public class Author {
 		this.authorName = authorName;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + authorId;
+		result = prime * result + (int) (authorId ^ (authorId >>> 32));
 		result = prime * result
 				+ ((authorName == null) ? 0 : authorName.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,11 +69,15 @@ public class Author {
 		return true;
 	}
 
-	public List<Book> getBooks() {
-		return books;
-	}
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
-	}
+
+
+
+//	public List<Book> getBooks() {
+//		return books;
+//	}
+//
+//	public void setBooks(List<Book> books) {
+//		this.books = books;
+//	}
 }

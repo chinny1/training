@@ -16,16 +16,11 @@ import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
 
 @Repository
-public class BookDAO extends BaseDAO<Book> implements Serializable,
+public class BookDAO_0507 extends BaseDAO<Book> implements Serializable,
 		ResultSetExtractor<List<Book>> {
-	
-	private static final String BOOKS_COLLECTION = "Books";
 
 	@Autowired
 	PublisherDAO pDAO;
-	
-	@Autowired
-	AuthorDAO aDAO;
 
 	/**
 	 * 
@@ -33,26 +28,22 @@ public class BookDAO extends BaseDAO<Book> implements Serializable,
 	private static final long serialVersionUID = 1619700647002508164L;
 
 	public void addBook(Book bk) throws SQLException {
-		
-		Author author = aDAO.readOne(bk.getAuthors().get(0).getAuthorId());
-		bk.getAuthors().set(0, author);
-		mongoOps.insert(bk, BOOKS_COLLECTION);
 
-//		Integer pubId = null;
-//		if (bk.getPublisher() != null)
-//			pubId = bk.getPublisher().getId();
-//
-//		KeyHolder keyHolder = new GeneratedKeyHolder();
-//		template.update("insert into tbl_book (title, pubId) values (?,?)",
-//				new Object[] { bk.getTitle(), pubId }, keyHolder);
-//
-//		int bookId = keyHolder.getKey().intValue();
-//
-//		for (Author a : bk.getAuthors()) {
-//			template.update(
-//					"insert into tbl_book_authors (bookId, authorId) values (?,?)",
-//					new Object[] { bookId, a.getAuthorId() });
-//		}
+		Integer pubId = null;
+		if (bk.getPublisher() != null)
+			pubId = bk.getPublisher().getId();
+
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		template.update("insert into tbl_book (title, pubId) values (?,?)",
+				new Object[] { bk.getTitle(), pubId }, keyHolder);
+
+		int bookId = keyHolder.getKey().intValue();
+
+		for (Author a : bk.getAuthors()) {
+			template.update(
+					"insert into tbl_book_authors (bookId, authorId) values (?,?)",
+					new Object[] { bookId, a.getAuthorId() });
+		}
 	}
 
 	public void updateAuthor(Book book) throws SQLException {
@@ -64,7 +55,7 @@ public class BookDAO extends BaseDAO<Book> implements Serializable,
 	public List<Book> readAll(int pageNo, int pageSize) throws SQLException {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Book>) template.query(setPageLimits("select * from tbl_book"), this);
+		return (List<Book>) template.query("select * from tbl_book", this);
 	}
 
 	public int readAllCount() throws SQLException {
@@ -82,7 +73,7 @@ public class BookDAO extends BaseDAO<Book> implements Serializable,
 
 		while (rs.next()) {
 			Book b = new Book();
-			//b.setBookId(rs.getInt("bookId"));
+			b.setBookId(rs.getInt("bookId"));
 			b.setTitle(rs.getString("title"));
 			b.setPublisher(pDAO.readOne(rs.getInt("pubId")));
 			books.add(b);

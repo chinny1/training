@@ -8,10 +8,15 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.service.AdministratorService;
+import com.mongodb.MongoClient;
 
 @EnableTransactionManagement
 @Configuration
@@ -20,7 +25,7 @@ public class LMSConfig {
 	private static final String driver = "com.mysql.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/library";
 	private static final String user = "root";
-	private static final String pwd = "root";
+	private static final String pwd = null;
 
 	@Bean
 	public AdministratorService adminService() {
@@ -67,5 +72,15 @@ public class LMSConfig {
 
 		return ds;
 	}
+	
+	
+	public @Bean MongoDbFactory getMongoDbFactory() throws Exception {
+        return new SimpleMongoDbFactory(new MongoClient("localhost",27017), "local");
+    }
+ 
+    public @Bean MongoTemplate getMongoTemplate() throws Exception {
+        MongoTemplate mongoTemplate = new MongoTemplate(getMongoDbFactory());
+        return mongoTemplate;
+    }
 
 }

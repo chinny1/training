@@ -1,7 +1,14 @@
 package com.gcit.lms.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.gcit.lms.domain.SequenceId;
 
 public abstract class BaseDAO<T> {
 	
@@ -10,6 +17,26 @@ public abstract class BaseDAO<T> {
 
 	@Autowired
 	protected JdbcTemplate template;
+	
+	@Autowired
+	protected MongoOperations mongoOps;
+	
+	public long getNextSequenceId(String key) {
+
+		Query query = new Query(Criteria.where("_id").is(key));
+
+		Update update = new Update();
+		update.inc("seq", 1);
+
+		FindAndModifyOptions options = new FindAndModifyOptions();
+		options.returnNew(true);
+
+		SequenceId seqId = mongoOps.findAndModify(query, update, options,
+				SequenceId.class);
+
+		return seqId.getSeq();
+
+	}
 	
 	public int getPageNo() {
 		return pageNo;
@@ -25,6 +52,16 @@ public abstract class BaseDAO<T> {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+	
+	protected String setPageLimits(String query) {
+		if(getPageNo() > -1) {
+			int start = ((pageNo-1)*10);
+			//if(start > 0) start++;
+			query = query + " LIMIT " + start + "," + pageSize;
+		}
+		
+		return query;
 	}
 
 }
